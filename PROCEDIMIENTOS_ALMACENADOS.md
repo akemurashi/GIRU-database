@@ -3,7 +3,6 @@
 **Proyecto:** G.I.R.U. (Gestor Institucional de Regulaciones Universitarias)  
 **Institución:** Universidad Técnica Federico Santa María (UTFSM)  
 **Motor de Base de Datos:** PostgreSQL 16 (AWS RDS) / PostgreSQL 18 (Local)  
-**Archivo Fuente SQL:** [`sp_modificar_documento.sql`](file:///home/ghost/Proyectos/proyecto_giru_db/sp_modificar_documento.sql)  
 **Identificador de Entidad:** UUIDv7 (`iddocumento`, RFC 9562)
 
 ---
