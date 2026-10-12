@@ -16,6 +16,7 @@ Este módulo procedural centraliza las operaciones de **mutación y actualizaci�
 2. **Atomicidad Transaccional:** Cada procedimiento opera dentro del contexto transaccional de PostgreSQL. En caso de error o violación de restricciones, la operación se revierte en su totalidad (`ROLLBACK`), garantizando que ningún documento quede en estado corrupto o inconsistente.
 3. **Concurrencia Segura:** La asignación de correlativos por categoría (`correlativocategoria`) y la construcción de códigos (`nommetadato`) implementan bloqueos pesimistas a nivel de fila (`FOR UPDATE`) en la tabla `categoria`, previniendo condiciones de carrera (*race conditions*) en ejecuciones paralelas.
 4. **Idempotencia y Flexibilidad de Interfaz:** Los parámetros permiten especificar entidades tanto por sus identificadores enteros como por sus nombres o códigos canónicos (ej. `'GI-01'`, `'Decreto'`, `'Vigente'`, `'Informática'`), resolviendo dinámicamente las claves foráneas correspondientes.
+5. **Auditoría y Trazabilidad Temporal (`ultima_modificacion`):** La tabla `documento` incorpora el atributo de auditoría `ultima_modificacion TIMESTAMPTZ`. Cada mutación ejecutada por los procedimientos almacenados (modificaciones escalares, categorización y tablas puente satélite) actualiza de forma atómica este campo con `CURRENT_TIMESTAMP`, contando además con el respaldo de un trigger procedural a nivel de motor (`trg_documento_actualizar_ultima_modificacion`).
 
 ---
 
@@ -509,6 +510,7 @@ SELECT public.fn_obtener_documento_detalle('01a12d3c-994a-7a59-89ef-0667e6e94634
     "derogacion": null,
     "isactive": true,
     "aplicacioninmediata": true,
+    "ultima_modificacion": "2026-03-15T18:30:00-03:00",
     "tipodocumento": { "id": 1, "nombre": "Reglamento" },
     "categoria": { "id": 5, "num": "GI-01", "nombre": "Gobernanza normativa" },
     "macrocategoria": { "id": 2, "sigla": "GI", "nombre": "Gestión Institucional" },
@@ -812,6 +814,7 @@ curl -X 'PATCH' \
     "derogacion": null,
     "isactive": true,
     "aplicacioninmediata": true,
+    "ultima_modificacion": "2026-03-15T18:30:00-03:00",
     "tipodocumento": { "id": 2, "nombre": "Decreto" },
     "categoria": { "id": 5, "num": "GI-01", "nombre": "Gobernanza normativa" },
     "macrocategoria": { "id": 2, "sigla": "GI", "nombre": "Gestión Institucional" },
