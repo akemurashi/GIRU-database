@@ -90,8 +90,9 @@ CALL public.sp_modificar_documento_metadatos(
 #### Ejemplo
 ```sql
 CALL public.sp_modificar_documento_metadatos(
-    '01a12d3c-994a-7a59-89ef-0667e6e94634'::uuid,
-    p_numcategoria => 'GI-01'
+    p_iddocumento => 'TU-UUID-AQUI',
+    p_idmacrocategoria => 1,
+    p_idcategoria => 8
 );
 ```
 
