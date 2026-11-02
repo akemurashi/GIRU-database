@@ -843,6 +843,49 @@ curl -X 'PATCH' \
   "roles_institucionales": [
     { "id": 1, "nombre": "Docente" },
     { "id": 2, "nombre": "Alumno" }
-  ]
+  ],
+  "trazabilidad": {
+    "cant_antes": 2,
+    "cant_despues": 1,
+    "ultima_sincronizacion": "2026-11-02T22:05:55Z",
+    "antes": [
+      { "decreto": "DECRETO 014/1993", "fecha": "1993-04-01", "anio": 1993, "nombre_archivo": "Decreto_14-93.md" }
+    ],
+    "despues": [
+      { "decreto": "DECRETO 057/2025", "fecha": "2025-01-20", "anio": 2025, "nombre_archivo": null }
+    ]
+  }
 }
 ```
+
+---
+
+## 6. Módulo Procedural de Trazabilidad Normativa (Read Model CQRS)
+
+Proporciona soporte transaccional y funciones optimizadas de lectura para la proyección desnormalizada de la línea de tiempo (`public.documentotrazabilidad`).
+
+### 6.1. `fn_obtener_trazabilidad_documento(uuid)`
+Retorna un payload ligero con la línea de tiempo exclusivamente para el endpoint `GET /api/documentos/:id/trazabilidad`.
+
+```sql
+SELECT public.fn_obtener_trazabilidad_documento('01a13ca5-a64b-76e0-b638-06e4b74b3f5f'::uuid);
+```
+
+### 6.2. `sp_modificar_o_crear_trazabilidad(uuid, jsonb, jsonb)`
+Inserta o actualiza atómicamente la proyección de trazabilidad de un documento.
+
+```sql
+CALL public.sp_modificar_o_crear_trazabilidad(
+    '01a13ca5-a64b-76e0-b638-06e4b74b3f5f'::uuid,
+    '[{"decreto": "DECRETO 001/1982", "fecha": "1982-03-19", "anio": 1982, "nombre_archivo": null}]'::jsonb,
+    '[]'::jsonb
+);
+```
+
+### 6.3. `sp_eliminar_trazabilidad_documento(uuid)`
+Limpia el registro de trazabilidad de un documento preservando íntegro el documento maestro.
+
+```sql
+CALL public.sp_eliminar_trazabilidad_documento('01a13ca5-a64b-76e0-b638-06e4b74b3f5f'::uuid);
+```
+
