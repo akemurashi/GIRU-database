@@ -18,3 +18,12 @@ Este directorio centraliza los manuales técnicos, diagramas y especificaciones 
 3. [**Manual Consolidado de Base de Datos (`documentacionDB.pdf`)**](documentacionDB.pdf):
    * Documento formal con la arquitectura global de datos del proyecto G.I.R.U.
 
+4. [**Tabla Satélite de Trazabilidad (`TABLA_DOCUMENTOTRAZABILIDAD.md`)**](TABLA_DOCUMENTOTRAZABILIDAD.md):
+   * Diccionario de datos, definición DDL, columnas generadas (`cant_antes`, `cant_despues`) y estrategia de índices GIN (`jsonb_path_ops`).
+   * Almacenamiento de normas históricas externas con `nombre_archivo: null` y reglas de integridad referencial en cascada.
+
+5. [**Guía de Integración Backend (`TRAZABILIDAD_API_BACKEND.md`)**](TRAZABILIDAD_API_BACKEND.md):
+   * Contrato del payload JSON de la línea de tiempo (`antes[]` y `despues[]`).
+   * Especificación de endpoints ligeros (`fn_obtener_trazabilidad_documento`) y procedimientos administrativos (`sp_modificar_o_crear_trazabilidad`).
+   * Ejemplos de implementación listos para copiar y pegar en Node.js (TypeScript) y Python (FastAPI).
+
